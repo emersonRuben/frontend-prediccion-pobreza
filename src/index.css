@@ -1,0 +1,318 @@
+:root {
+  /* iOS 18 Control Center Liquid Glass LIGHT Theme */
+  /* The 3D Volumetric Glass Module */
+  --bg-gradient: #F2F2F7; /* Fondo claro puro estilo sistema Apple */
+  
+  /* The 3D Volumetric Glass Module */
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  /* Top highlight, bottom inner shadow, outer drop shadow */
+  --glass-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.7), 
+                  inset 0 -4px 8px rgba(0, 0, 0, 0.04), 
+                  0 12px 32px rgba(0, 0, 0, 0.08);
+  --glass-blur: blur(30px);
+  --glass-saturate: saturate(200%);
+  
+  --text-primary: #1C1C1E;
+  --text-secondary: #8E8E93;
+  
+  /* Control Center Colors */
+  --accent-color: #007AFF; /* Blue */
+  --accent-glow: rgba(0, 122, 255, 0.3);
+  
+  --danger-color: #FF3B30;
+  --success-color: #34C759; /* Control Center Green */
+  --warning-color: #FF9500;
+
+  /* Extreme Rounding like iOS CC */
+  --border-radius-pill: 9999px;
+  --border-radius-xl: 36px;
+  --border-radius-lg: 28px;
+  --border-radius-md: 20px;
+  --border-radius-sm: 12px;
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Liquid Glass Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  transition: var(--transition-smooth);
+}
+
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.01);
+}
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* iOS Specific Styles - Control Center Minimalist */
+.ios-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-md);
+  transition: var(--transition-smooth);
+  text-decoration: none;
+  background: transparent;
+  margin-bottom: 0.2rem;
+}
+
+.ios-menu-item:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.ios-menu-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-radius: var(--border-radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    inset 0 3px 6px rgba(255, 255, 255, 0.9), /* High top reflection */
+    inset 2px 0 6px rgba(255, 59, 48, 0.25),   /* Red chromatic refraction */
+    inset -2px 0 6px rgba(0, 122, 255, 0.25),  /* Blue chromatic refraction */
+    inset 0 -3px 6px rgba(255, 204, 0, 0.25),  /* Yellow chromatic refraction */
+    0 10px 20px rgba(0,0,0,0.08); /* Floating shadow */
+  color: #000 !important;
+  font-weight: 600;
+  position: relative;
+  padding: 0.6rem 1.2rem;
+}
+
+.ios-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px; /* Squirclish */
+  background: rgba(255, 255, 255, 0.3); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 
+              inset 0 -2px 4px rgba(0, 0, 0, 0.05),
+              0 4px 10px rgba(0,0,0,0.05);
+  transition: var(--transition-smooth);
+}
+
+.ios-menu-item.active .ios-icon-box {
+  background: var(--accent-color);
+}
+
+.ios-menu-item.active .ios-icon-box svg {
+  color: #fff !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600; /* Apple uses semibold for headers */
+  letter-spacing: -0.5px;
+}
+
+.gradient-text {
+  color: #000; /* Apple doesn't use gradient text in modern iOS headers */
+}
+
+.accent-text {
+  color: var(--accent-color);
+}
+
+/* Layout Utilities */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Buttons - 3D Volumetric Liquid Glass */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 4px 6px rgba(255, 255, 255, 0.8), 
+              inset 0 -4px 6px rgba(0, 0, 0, 0.05),
+              0 8px 20px rgba(0,0,0,0.06);
+  border-radius: 20px;
+  color: #1C1C1E;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.02);
+}
+
+.btn-primary {
+  background: var(--accent-color);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 15px var(--accent-glow);
+  border: none;
+  border-radius: 20px;
+  color: #FFF;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary:hover {
+  background: #0062cc;
+  transform: scale(1.02);
+}
+
+/* Formularios - Estilo iOS */
+.ios-input {
+  background: rgba(0,0,0,0.06);
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+  width: 80px;
+  text-align: center;
+  transition: var(--transition-smooth);
+  /* Ocultar las flechas feas de number */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.ios-input::-webkit-outer-spin-button,
+.ios-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ios-input:focus {
+  background: rgba(0,0,0,0.1);
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+/* Stepper iOS */
+.ios-stepper-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(0,0,0,0.05);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.ios-stepper-btn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.ios-stepper-btn:active {
+  transform: scale(0.95);
+  background: rgba(0,122,255,0.15);
+  color: #007AFF;
+}
+
+/* ── Animación de carga (Loader2 / spinner) ──────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+/* ── Botón primario deshabilitado ─────────────────────────────────────────────── */
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Tooltip del mapa (Leaflet) ────────────────────────────────────────────────── */
+.glass-tooltip {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+  color: #1C1C1E !important;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.8rem !important;
+}
+
+.glass-tooltip::before {
+  display: none !important;
+}
