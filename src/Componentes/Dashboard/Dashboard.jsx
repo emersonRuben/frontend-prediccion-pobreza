@@ -19,7 +19,7 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
-import { dashboardApi } from "../../Servicios/api";
+import { dashboardApi } from "../../api/services";
 
 // ─── Normaliza la respuesta de /api/tendencia/nacional ─────────────────────────
 // El backend puede devolver { tendencia: [...] } o directamente un array.
@@ -364,7 +364,7 @@ const Dashboard = () => {
           title="AUC-ROC Modelo"
           value={Number(aucRoc).toFixed(4)}
           subtitle={
-            modeloInfo ? "Desde /api/modelo/info" : "Valor de referencia"
+            modeloInfo ? "Configuración actual" : "Valor de referencia"
           }
           icon={<Activity size={26} strokeWidth={1.5} color="#007AFF" />}
           color="10, 132, 255"
@@ -377,7 +377,7 @@ const Dashboard = () => {
             isProyeccion
               ? "Proyección estimada"
               : resumen
-                ? "Desde /api/resumen"
+                ? "Dato actualizado"
                 : "Dato del panel"
           }
           icon={<TrendingUp size={26} strokeWidth={1.5} color="#34C759" />}

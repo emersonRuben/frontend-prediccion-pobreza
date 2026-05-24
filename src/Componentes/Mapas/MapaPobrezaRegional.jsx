@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import * as topojson from "topojson-client";
 import { Calendar, Minus, Plus, Loader2, AlertCircle } from "lucide-react";
-import { dashboardApi } from "../../Servicios/api";
+import { dashboardApi } from "../../api/services";
 
 // ─── Mapeo: ID numérico INEI → nombre de departamento (NOMBDEP en el GeoJSON) ──
 const DEPT_ID_A_NOMBRE = {
@@ -429,7 +429,7 @@ const MapaPobrezaRegional = () => {
                 width: "100%",
                 background: "transparent",
               }}
-              key={selectedYear} // Re-monta el mapa al cambiar año para re-aplicar estilos
+              key={`${selectedYear}-${regionalData.size}`} // Re-monta el mapa al cambiar año o al cargar datos para re-aplicar estilos
             >
               <TileLayer
                 url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -542,23 +542,7 @@ const MapaPobrezaRegional = () => {
           {/* Leyenda de colores */}
           <Leyenda />
 
-          {/* Resumen de datos regionales */}
-          {regionalData.size > 0 && (
-            <div
-              style={{
-                marginTop: "auto",
-                padding: "0.8rem",
-                background: "rgba(10,132,255,0.08)",
-                borderRadius: "12px",
-                border: "1px solid rgba(10,132,255,0.2)",
-                fontSize: "0.8rem",
-                color: "var(--text-secondary)",
-              }}
-            >
-              ✓ {regionalData.size} departamentos cargados desde{" "}
-              <code>/api/regional/{selectedYear}</code>
-            </div>
-          )}
+
         </div>
       </div>
     </div>

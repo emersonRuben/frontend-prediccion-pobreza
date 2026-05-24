@@ -7,7 +7,7 @@ import {
   XCircle,
   Loader2,
 } from 'lucide-react';
-import { coreApi } from '../../Servicios/api';
+import { coreApi } from '../../api/services';
 
 // ─── Sub-componente: tarjeta de resultado por registro ─────────────────────────
 const ResultadoItem = ({ index, prediccion, probabilidad }) => {
@@ -261,11 +261,7 @@ const CargaDatos = () => {
                 )}
               </button>
 
-              {/* Nota de endpoint */}
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textAlign: 'center', marginTop: '1rem' }}>
-                Endpoint: <code>POST /predict/parquet</code> — backend en{' '}
-                <code>{import.meta.env.VITE_API_URL ?? 'http://localhost:8000'}</code>
-              </p>
+
             </>
           )}
 
