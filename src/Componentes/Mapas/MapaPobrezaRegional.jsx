@@ -213,6 +213,10 @@ const MapaPobrezaRegional = () => {
   const [selectedDept, setSelectedDept] = useState(null);
   const [trendDept, setTrendDept] = useState(null);
 
+  const minYear = 2017;
+  const maxYear = 2024;
+  const clampYear = (year) => Math.min(maxYear, Math.max(minYear, year));
+
   // ── Cargar TopoJSON local ────────────────────────────────────────────────────
   useEffect(() => {
     fetch("/topojsonperu.json")
@@ -236,7 +240,7 @@ const MapaPobrezaRegional = () => {
         if (anios.length > 0) {
           setAniosDisponibles(anios);
           // Seleccionar el año más reciente por defecto
-          setSelectedYear(Math.max(...anios));
+          setSelectedYear(clampYear(Math.max(...anios)));
         }
       })
       .catch(() => {
@@ -317,8 +321,9 @@ const MapaPobrezaRegional = () => {
     [regionalData, getStyle, cargarTendenciaDept],
   );
 
-  const minYear =
-    aniosDisponibles.length > 0 ? Math.min(...aniosDisponibles) : 2017;
+  const aniosMostrados = aniosDisponibles.filter(
+    (anio) => anio >= minYear && anio <= maxYear,
+  );
 
   return (
     <div
@@ -372,8 +377,8 @@ const MapaPobrezaRegional = () => {
               <span
                 style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}
               >
-                {aniosDisponibles.length > 0
-                  ? `Panel ENAHO: ${aniosDisponibles.join(", ")}`
+                {aniosMostrados.length > 0
+                  ? `Panel ENAHO: ${aniosMostrados.join(", ")}`
                   : "Cargando años disponibles…"}
               </span>
             </div>
@@ -381,7 +386,7 @@ const MapaPobrezaRegional = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <button
               className="ios-stepper-btn"
-              onClick={() => setSelectedYear((y) => Math.max(minYear, y - 1))}
+              onClick={() => setSelectedYear((y) => clampYear(y - 1))}
             >
               <Minus size={16} strokeWidth={2.5} />
             </button>
@@ -389,7 +394,7 @@ const MapaPobrezaRegional = () => {
               type="number"
               value={selectedYear}
               onChange={(e) =>
-                setSelectedYear(Math.max(minYear, Number(e.target.value)))
+                setSelectedYear(clampYear(Number(e.target.value)))
               }
               className="ios-input"
               style={{
@@ -400,7 +405,7 @@ const MapaPobrezaRegional = () => {
             />
             <button
               className="ios-stepper-btn"
-              onClick={() => setSelectedYear((y) => y + 1)}
+              onClick={() => setSelectedYear((y) => clampYear(y + 1))}
             >
               <Plus size={16} strokeWidth={2.5} />
             </button>
@@ -541,8 +546,6 @@ const MapaPobrezaRegional = () => {
 
           {/* Leyenda de colores */}
           <Leyenda />
-
-
         </div>
       </div>
     </div>
