@@ -24,14 +24,17 @@ import { dashboardApi } from "../../api/services";
 // ─── Normaliza la respuesta de /api/tendencia/nacional ─────────────────────────
 // El backend puede devolver { tendencia: [...] } o directamente un array.
 const normalizeTendencia = (raw) => {
-  const rows = Array.isArray(raw) ? raw : (raw?.tendencia ?? raw?.datos ?? raw?.data ?? []);
+  const rows = Array.isArray(raw)
+    ? raw
+    : (raw?.tendencia ?? raw?.datos ?? raw?.data ?? []);
   return rows.map((r) => {
-    let tasa = r.tasa_total ?? r.tasa_real ?? r.tasa_pobreza ?? r.pobreza_total ?? null;
+    let tasa =
+      r.tasa_total ?? r.tasa_real ?? r.tasa_pobreza ?? r.pobreza_total ?? null;
     if (tasa != null && tasa <= 1.0) tasa = tasa * 100;
-    
+
     let prob = r.prob_media ?? r.tasa_predicha ?? r.prediccion_media ?? null;
     if (prob != null && prob <= 1.0) prob = prob * 100;
-    
+
     return {
       anio: r.anio ?? r.ANIO ?? r.year,
       tasa_real: tasa,
@@ -44,7 +47,12 @@ const hasTendenciaData = (rows) =>
   Array.isArray(rows) && rows.some((r) => r?.anio != null);
 
 const extractResumenTasa = (raw) => {
-  let tasa = raw?.tasa_pobreza_total ?? raw?.tasa_pobreza ?? raw?.pobreza_total ?? raw?.tasa ?? null;
+  let tasa =
+    raw?.tasa_pobreza_total ??
+    raw?.tasa_pobreza ??
+    raw?.pobreza_total ??
+    raw?.tasa ??
+    null;
   if (tasa != null && tasa <= 1.0) tasa = tasa * 100;
   return tasa;
 };
@@ -149,6 +157,8 @@ const ErrorBanner = ({ message, onRetry }) => (
 // ════════════════════════════════════════════════════════════════════════════════
 const Dashboard = () => {
   const [selectedYear, setSelectedYear] = useState(2024);
+
+  const clampYear = (year) => Math.min(2024, Math.max(2017, year));
 
   // ── Estado de datos API ──────────────────────────────────────────────────────
   const [tendencia, setTendencia] = useState(null);
@@ -331,7 +341,7 @@ const Dashboard = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <button
               className="ios-stepper-btn"
-              onClick={() => setSelectedYear((y) => Math.max(2017, y - 1))}
+              onClick={() => setSelectedYear((y) => clampYear(y - 1))}
             >
               <Minus size={16} strokeWidth={2.5} />
             </button>
@@ -339,7 +349,7 @@ const Dashboard = () => {
               type="number"
               value={selectedYear}
               onChange={(e) =>
-                setSelectedYear(Math.max(2017, Number(e.target.value)))
+                setSelectedYear(clampYear(Number(e.target.value)))
               }
               className="ios-input"
               style={{
@@ -350,7 +360,7 @@ const Dashboard = () => {
             />
             <button
               className="ios-stepper-btn"
-              onClick={() => setSelectedYear((y) => y + 1)}
+              onClick={() => setSelectedYear((y) => clampYear(y + 1))}
             >
               <Plus size={16} strokeWidth={2.5} />
             </button>
@@ -363,9 +373,7 @@ const Dashboard = () => {
         <KPIWidget
           title="AUC-ROC Modelo"
           value={Number(aucRoc).toFixed(4)}
-          subtitle={
-            modeloInfo ? "Configuración actual" : "Valor de referencia"
-          }
+          subtitle={modeloInfo ? "Configuración actual" : "Valor de referencia"}
           icon={<Activity size={26} strokeWidth={1.5} color="#007AFF" />}
           color="10, 132, 255"
           loading={false}
@@ -398,7 +406,7 @@ const Dashboard = () => {
         >
           <h3>
             Evolución y Proyecciones de Pobreza (2017–
-            {Math.max(chartData.at(-1)?.anio ?? 2030, selectedYear)})
+            {Math.max(chartData.at(-1)?.anio ?? 2024, selectedYear)})
           </h3>
           {loadingTendencia && (
             <div
